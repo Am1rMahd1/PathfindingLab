@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import GridSetup from './components/GridSetup';
 import './App.css';
+import PathfindingGrid from "./components/PathFindingGrid";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    const [gridSize, setGridSize] = useState(null);
+    const [gameStarted, setGameStarted] = useState(false);
 
+    const handleGridSizeSubmit = (size) => {
+        setGridSize(size);
+        setGameStarted(true);
+    };
+
+    const handleReset = () => {
+        setGridSize(null);
+        setGameStarted(false);
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-700 p-5 font-sans">
+            <header className="text-center text-white mb-8">
+                <h1 className="text-4xl md:text-5xl font-bold mb-3 drop-shadow-lg">
+                    🔍 گنج کجاست؟
+                </h1>
+            </header>
+
+            {!gameStarted ? (
+                <GridSetup onSubmit={handleGridSizeSubmit} />
+            ) : (
+                <PathfindingGrid
+                    size={gridSize}
+                    onReset={handleReset}
+                />
+            )}
+        </div>
+    );
+}
 export default App;
